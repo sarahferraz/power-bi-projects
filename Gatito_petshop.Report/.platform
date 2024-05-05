@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Gatito_petshop"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ab81b895-f77e-456f-91fb-469a168a9c07"
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "version": "1.0",
+  "conceptualSchemaSettings": {},
+  "queries": [
+    {
+      "name": "Clientes",
+      "lineageTag": "b1fe652c-ffbe-46c0-baa2-0f301d50526e",
+      "text": [
+        "let",
+        "    Fonte = Csv.Document(File.Contents(\"C:\\Users\\sarah\\Downloads\\Alura\\POWER BI\\base\\Clientes.txt\"),[Delimiter=\"#(tab)\", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+        "    #\"Cabeçalhos Promovidos\" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),",
+        "    #\"Tipo Alterado\" = Table.TransformColumnTypes(#\"Cabeçalhos Promovidos\",{{\"ID Consumidor\", Int64.Type}, {\"Gênero\", type text}, {\"Estado civil\", type text}, {\"Pets\", Int64.Type}, {\"Bairro\", type text}}),",
+        "    #\"Linhas Filtradas\" = Table.SelectRows(#\"Tipo Alterado\", each [ID Consumidor] <> null and [ID Consumidor] <> \"\")",
+        "in",
+        "    #\"Linhas Filtradas\""
+      ],
+      "isDirectQuery": false,
+      "lastLoadedAsTableFormulaText": "{\"IncludesReferencedQueries\":false,\"RootFormulaText\":\"let\\n    Fonte = Csv.Document(File.Contents(\\\"C:\\\\Users\\\\sarah\\\\Downloads\\\\Alura\\\\POWER BI\\\\base\\\\Clientes.txt\\\"),[Delimiter=\\\"#(tab)\\\", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),\\n    #\\\"Cabeçalhos Promovidos\\\" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),\\n    #\\\"Tipo Alterado\\\" = Table.TransformColumnTypes(#\\\"Cabeçalhos Promovidos\\\",{{\\\"ID Consumidor\\\", Int64.Type}, {\\\"Gênero\\\", type text}, {\\\"Estado civil\\\", type text}, {\\\"Pets\\\", Int64.Type}, {\\\"Bairro\\\", type text}}),\\n    #\\\"Linhas Filtradas\\\" = Table.SelectRows(#\\\"Tipo Alterado\\\", each [ID Consumidor] <> null and [ID Consumidor] <> \\\"\\\")\\nin\\n    #\\\"Linhas Filtradas\\\"\",\"ReferencedQueriesFormulaText\":{}}",
+      "loadAsTableDisabled": false,
+      "resultType": "Table",
+      "isHidden": false
+    },
+    {
+      "name": "Produtos",
+      "lineageTag": "110253fb-83a8-47b7-a0ee-549b1d6201d1",
+      "text": [
+        "let",
+        "    Fonte = Web.BrowserContents(\"https://docs.google.com/spreadsheets/d/e/2PACX-1vQuBG-JoWaeQF5rF3RgZYl5Z-PaJyDBK1I1c8a56RssNGoOlInqQROKi3z54u74E2ei32p_SWOpBb0v/pubhtml\"),",
+        "    #\"Tabela extraída de HTML\" = Html.Table(Fonte, {{\"Column1\", \"TABLE.waffle > * > TR > :nth-child(1)\"}, {\"Column2\", \"TABLE.waffle > * > TR > :nth-child(2)\"}, {\"Column3\", \"TABLE.waffle > * > TR > :nth-child(3)\"}, {\"Column4\", \"TABLE.waffle > * > TR > :nth-child(4)\"}, {\"Column5\", \"TABLE.waffle > * > TR > :nth-child(5)\"}, {\"Column6\", \"TABLE.waffle > * > TR > :nth-child(6)\"}, {\"Column7\", \"TABLE.waffle > * > TR > :nth-child(7)\"}}, [RowSelector=\"TABLE.waffle > * > TR\"]),",
+        "    #\"Tipo Alterado\" = Table.TransformColumnTypes(#\"Tabela extraída de HTML\",{{\"Column1\", Int64.Type}, {\"Column2\", type text}, {\"Column3\", type text}, {\"Column4\", type text}, {\"Column5\", type text}, {\"Column6\", type text}, {\"Column7\", type text}}),",
+        "    #\"Linhas Superiores Removidas\" = Table.Skip(#\"Tipo Alterado\",1),",
+        "    #\"Cabeçalhos Promovidos\" = Table.PromoteHeaders(#\"Linhas Superiores Removidas\", [PromoteAllScalars=true]),",
+        "    #\"Tipo Alterado1\" = Table.TransformColumnTypes(#\"Cabeçalhos Promovidos\",{{\"1\", Int64.Type}, {\"ID Produto\", Int64.Type}, {\"Nome produto\", type text}, {\"Categoria\", type text}, {\"Marca\", type text}, {\"Valor\", Currency.Type}, {\"Url img\", type text}}),",
+        "    #\"Colunas Removidas\" = Table.RemoveColumns(#\"Tipo Alterado1\",{\"1\"})",
+        "in",
+        "    #\"Colunas Removidas\""
+      ],
+      "isDirectQuery": false,
+      "lastLoadedAsTableFormulaText": "{\"IncludesReferencedQueries\":false,\"RootFormulaText\":\"let\\n    Fonte = Web.BrowserContents(\\\"https://docs.google.com/spreadsheets/d/e/2PACX-1vQuBG-JoWaeQF5rF3RgZYl5Z-PaJyDBK1I1c8a56RssNGoOlInqQROKi3z54u74E2ei32p_SWOpBb0v/pubhtml\\\"),\\n    #\\\"Tabela extraída de HTML\\\" = Html.Table(Fonte, {{\\\"Column1\\\", \\\"TABLE.waffle > * > TR > :nth-child(1)\\\"}, {\\\"Column2\\\", \\\"TABLE.waffle > * > TR > :nth-child(2)\\\"}, {\\\"Column3\\\", \\\"TABLE.waffle > * > TR > :nth-child(3)\\\"}, {\\\"Column4\\\", \\\"TABLE.waffle > * > TR > :nth-child(4)\\\"}, {\\\"Column5\\\", \\\"TABLE.waffle > * > TR > :nth-child(5)\\\"}, {\\\"Column6\\\", \\\"TABLE.waffle > * > TR > :nth-child(6)\\\"}, {\\\"Column7\\\", \\\"TABLE.waffle > * > TR > :nth-child(7)\\\"}}, [RowSelector=\\\"TABLE.waffle > * > TR\\\"]),\\n    #\\\"Tipo Alterado\\\" = Table.TransformColumnTypes(#\\\"Tabela extraída de HTML\\\",{{\\\"Column1\\\", Int64.Type}, {\\\"Column2\\\", type text}, {\\\"Column3\\\", type text}, {\\\"Column4\\\", type text}, {\\\"Column5\\\", type text}, {\\\"Column6\\\", type text}, {\\\"Column7\\\", type text}}),\\n    #\\\"Linhas Superiores Removidas\\\" = Table.Skip(#\\\"Tipo Alterado\\\",1),\\n    #\\\"Cabeçalhos Promovidos\\\" = Table.PromoteHeaders(#\\\"Linhas Superiores Removidas\\\", [PromoteAllScalars=true]),\\n    #\\\"Tipo Alterado1\\\" = Table.TransformColumnTypes(#\\\"Cabeçalhos Promovidos\\\",{{\\\"1\\\", Int64.Type}, {\\\"ID Produto\\\", Int64.Type}, {\\\"Nome produto\\\", type text}, {\\\"Categoria\\\", type text}, {\\\"Marca\\\", type text}, {\\\"Valor\\\", Currency.Type}, {\\\"Url img\\\", type text}}),\\n    #\\\"Colunas Removidas\\\" = Table.RemoveColumns(#\\\"Tipo Alterado1\\\",{\\\"1\\\"})\\nin\\n    #\\\"Colunas Removidas\\\"\",\"ReferencedQueriesFormulaText\":{}}",
+      "loadAsTableDisabled": false,
+      "resultType": "Table",
+      "isHidden": false
+    },
+    {
+      "name": "Vendas",
+      "lineageTag": "80d3e8bb-9666-4a4a-958b-b2a35bf947dc",
+      "text": [
+        "let",
+        "    Fonte = Folder.Files(\"C:\\Users\\sarah\\Downloads\\Alura\\POWER BI\\base\\Vendas\"),",
+        "    #\"Arquivos Ocultos Filtrados1\" = Table.SelectRows(Fonte, each [Attributes]?[Hidden]? <> true),",
+        "    #\"Invocar Função Personalizada1\" = Table.AddColumn(#\"Arquivos Ocultos Filtrados1\", \"Transformar Arquivo\", each #\"Transformar Arquivo\"([Content])),",
+        "    #\"Colunas Renomeadas1\" = Table.RenameColumns(#\"Invocar Função Personalizada1\", {\"Name\", \"Nome da Origem\"}),",
+        "    #\"Outras Colunas Removidas1\" = Table.SelectColumns(#\"Colunas Renomeadas1\", {\"Nome da Origem\", \"Transformar Arquivo\"}),",
+        "    #\"Coluna de Tabela Expandida1\" = Table.ExpandTableColumn(#\"Outras Colunas Removidas1\", \"Transformar Arquivo\", Table.ColumnNames(#\"Transformar Arquivo\"(#\"Arquivo de Amostra\"))),",
+        "    #\"Tipo Alterado\" = Table.TransformColumnTypes(#\"Coluna de Tabela Expandida1\",{{\"Nome da Origem\", type text}, {\"Transacao\", Int64.Type}, {\"Data de compra\", type date}, {\"ID Consumidor\", Int64.Type}, {\"ID Produto\", Int64.Type}, {\"Quantidade\", Int64.Type}}),",
+        "    #\"Colunas Removidas\" = Table.RemoveColumns(#\"Tipo Alterado\",{\"Nome da Origem\"})",
+        "in",
+        "    #\"Colunas Removidas\""
+      ],
+      "isDirectQuery": false,
+      "lastLoadedAsTableFormulaText": "{\"IncludesReferencedQueries\":false,\"RootFormulaText\":\"let\\n    Fonte = Folder.Files(\\\"C:\\\\Users\\\\sarah\\\\Downloads\\\\Alura\\\\POWER BI\\\\base\\\\Vendas\\\"),\\n    #\\\"Arquivos Ocultos Filtrados1\\\" = Table.SelectRows(Fonte, each [Attributes]?[Hidden]? <> true),\\n    #\\\"Invocar Função Personalizada1\\\" = Table.AddColumn(#\\\"Arquivos Ocultos Filtrados1\\\", \\\"Transformar Arquivo\\\", each #\\\"Transformar Arquivo\\\"([Content])),\\n    #\\\"Colunas Renomeadas1\\\" = Table.RenameColumns(#\\\"Invocar Função Personalizada1\\\", {\\\"Name\\\", \\\"Nome da Origem\\\"}),\\n    #\\\"Outras Colunas Removidas1\\\" = Table.SelectColumns(#\\\"Colunas Renomeadas1\\\", {\\\"Nome da Origem\\\", \\\"Transformar Arquivo\\\"}),\\n    #\\\"Coluna de Tabela Expandida1\\\" = Table.ExpandTableColumn(#\\\"Outras Colunas Removidas1\\\", \\\"Transformar Arquivo\\\", Table.ColumnNames(#\\\"Transformar Arquivo\\\"(#\\\"Arquivo de Amostra\\\"))),\\n    #\\\"Tipo Alterado\\\" = Table.TransformColumnTypes(#\\\"Coluna de Tabela Expandida1\\\",{{\\\"Nome da Origem\\\", type text}, {\\\"Transacao\\\", Int64.Type}, {\\\"Data de compra\\\", type date}, {\\\"ID Consumidor\\\", Int64.Type}, {\\\"ID Produto\\\", Int64.Type}, {\\\"Quantidade\\\", Int64.Type}}),\\n    #\\\"Colunas Removidas\\\" = Table.RemoveColumns(#\\\"Tipo Alterado\\\",{\\\"Nome da Origem\\\"})\\nin\\n    #\\\"Colunas Removidas\\\"\",\"ReferencedQueriesFormulaText\":{}}",
+      "loadAsTableDisabled": false,
+      "resultType": "Table",
+      "isHidden": false
+    },
+    {
+      "name": "Parâmetro1",
+      "lineageTag": "2423c415-3fbb-47ad-836d-6ca74a1ce416",
+      "queryGroupId": "6f029fe9-58f6-48bf-9755-63978c4a3bae",
+      "text": [
+        "#\"Arquivo de Amostra\" meta [IsParameterQuery=true, BinaryIdentifier=#\"Arquivo de Amostra\", Type=\"Binary\", IsParameterQueryRequired=true]"
+      ],
+      "loadAsTableDisabled": true,
+      "resultType": "Binary",
+      "isHidden": false
+    },
+    {
+      "name": "Transformar o Arquivo de Exemplo",
+      "lineageTag": "d31e67a8-8e8b-45d5-a684-d2d550d36dbe",
+      "queryGroupId": "7a57d26c-435a-4f36-9fbe-449c0e630753",
+      "text": [
+        "let",
+        "    Fonte = Excel.Workbook(Parâmetro1, null, true),",
+        "    Vendas_Table = Fonte{[Item=\"Vendas\",Kind=\"Table\"]}[Data]",
+        "in",
+        "    Vendas_Table"
+      ],
+      "loadAsTableDisabled": true,
+      "resultType": "Table",
+      "isHidden": false
+    },
+    {
+      "name": "Arquivo de Amostra",
+      "lineageTag": "d14fcf38-ec41-4735-b706-d515d39fe013",
+      "queryGroupId": "6f029fe9-58f6-48bf-9755-63978c4a3bae",
+      "text": [
+        "let",
+        "    Fonte = Folder.Files(\"C:\\Users\\sarah\\Downloads\\Alura\\POWER BI\\base\\Vendas\"),",
+        "    Navegação1 = Fonte{0}[Content]",
+        "in",
+        "    Navegação1"
+      ],
+      "loadAsTableDisabled": true,
+      "resultType": "Exception",
+      "isHidden": false
+    },
+    {
+      "name": "Transformar Arquivo",
+      "lineageTag": "64dfa282-9f52-4c5a-8b18-12ee7dc7ffc1",
+      "queryGroupId": "6f029fe9-58f6-48bf-9755-63978c4a3bae",
+      "text": [
+        "let",
+        "    Fonte = (Parâmetro1 as binary) => let",
+        "    Fonte = Excel.Workbook(Parâmetro1, null, true),",
+        "    Vendas_Table = Fonte{[Item=\"Vendas\",Kind=\"Table\"]}[Data]",
+        "in",
+        "    Vendas_Table",
+        "in",
+        "    Fonte"
+      ],
+      "loadAsTableDisabled": true,
+      "resultType": "Function",
+      "isHidden": false
+    }
+  ],
+  "queryGroups": [
+    {
+      "name": "Transformar Arquivo de Vendas (2)",
+      "id": "7a57d26c-435a-4f36-9fbe-449c0e630753",
+      "description": ""
+    },
+    {
+      "name": "Consultas Auxiliares",
+      "id": "6f029fe9-58f6-48bf-9755-63978c4a3bae",
+      "description": "",
+      "parentId": "7a57d26c-435a-4f36-9fbe-449c0e630753"
+    }
+  ],
+  "culture": "pt-BR",
+  "firewallEnabled": true
+}
